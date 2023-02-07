@@ -42,7 +42,7 @@ const DetailedOrder = () => {
                 <h2 style={styles.totalPrice}>${total}</h2>
             </div>
             <Divider />
-            <div Style={styles.buttonsContainer}>
+            <div style={styles.buttonsContainer}>
                 <Button
                 block
                 danger
@@ -93,7 +93,7 @@ const styles = {
     },
 
     totalPrice:{
-        margin:'auto',
+        marginLeft:'auto',
     },
 
     buttonsContainer:{

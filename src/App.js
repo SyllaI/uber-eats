@@ -5,6 +5,7 @@ import { Amplify } from "aws-amplify";
 import awsconfig from './aws-exports'
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import '@aws-amplify/ui-react/styles.css';
+import ResturauntContextProvider from "./context/ResturauntContext";
 
 Amplify.configure(awsconfig);
 
@@ -15,8 +16,9 @@ const { Sider, Content, Footer } = Layout;
 
 function App() {
   return (
+    <ResturauntContextProvider>
    <Layout>
-    <Sider style={{backgroundcolor: 'White'}}>
+    <Sider style={{backgroundcolor: 'hite'}}>
       <Image
       src="https://logos-world.net/wp-content/uploads/2020/11/Uber-Eats-Symbol.jpg"
       preview = {false}
@@ -32,6 +34,7 @@ function App() {
       </Footer>
     </Layout>
    </Layout>
+   </ResturauntContextProvider>
   );
 }
 

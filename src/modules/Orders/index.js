@@ -3,14 +3,20 @@ import{Card,Table,Tag} from "antd"
 import { useNavigate } from "react-router-dom";
 import { DataStore } from "aws-amplify";
 import{ Order } from '../../models'
+import { useResturauntContext } from "../../context/ResturauntContext";
 
 const Orders = () => {
 
     const [orders, setOrders] = useState ([]);
+    const { resturaunt } = useResturauntContext()
 
     useEffect(() =>{
-        DataStore.query(Order).then(setOrders);
-    });
+        if (!resturaunt) {
+            return;
+        }
+        DataStore.query(Order, (order) =>
+        order.orderResturauntId.eq(resturaunt.id)).then(setOrders);
+    },[resturaunt]);
 
     //console.log(orders);
 
@@ -38,7 +44,6 @@ const Orders = () => {
             title:'ID',
             dataIndex: 'id',
             key:'id',
-
         },
         {
             title:'Created At',

@@ -33,7 +33,7 @@ const Orders = () => {
             COMPLETED: 'green',
             ACCEPTED:'orange',
             DECLINED:'red',
-        }
+        };
        
 
         return <Tag color={statusToColor[orderStaus]}>{orderStaus}</Tag>

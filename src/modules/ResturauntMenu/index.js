@@ -1,9 +1,32 @@
-import { Card, Table, Button, Menu } from "antd";
-import dishes from '../../data/dashboard/dishes.json';
+import { Card, Table, Button, message, Popconfirm } from "antd";
+import { DataStore } from "aws-amplify";
+import { useEffect,useState } from "react";
+import ResturauntContextProvider, { useResturauntContext } from "../../context/ResturauntContext";
+import { Dish } from "../../models";
 import { Link } from "react-router-dom";
 
 
+
 const ResturauntMenu = () => {
+
+    const [dishes, setDishes] = useState([]);
+    const {resturaunt} = useResturauntContext();
+
+    useEffect (() => {
+        if (!resturaunt?.id){
+            return;
+        }
+        DataStore.query(Dish,d =>
+            d.resturauntID.eq(resturaunt.id)).then(setDishes);
+    },[resturaunt?.id]);
+
+    const deleteDish = async (item) => {
+        await DataStore.delete(Dish, d => d.id.eq(item.id));
+        setDishes(dishes.filter((d) => d.id !== item.id));
+        message.success('Dish deleted.');
+
+
+    } 
     
     const renderNewItemButton = () => {
         return(
@@ -24,12 +47,24 @@ const ResturauntMenu = () => {
             title: 'Price',
             dataIndex: 'price',
             key: 'price',
-            render: (price) => `$${price}`,
+            render: (price) => `$${price.toFixed(2)}`,
         },
         {
             title: 'Action',
             key: 'action',
-            render: () => <Button danger type="primary">Remove</Button>
+            render: (_, item) =>(
+                <Popconfirm
+                placement="topLeft"
+                title={'are you sure you want to delete this dish'}
+                onConfirm={() => deleteDish(item)}
+                okText='Yes'
+                cancelText='No'
+                >  
+                    <Button danger type="primary">Remove</Button>
+
+                </Popconfirm>
+
+            ) 
         }
 
     ];

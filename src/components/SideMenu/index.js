@@ -18,7 +18,12 @@ const SideMenu = () => {
             key: 'menu',
             label: 'Resturaunt Menu'
         },
+        {
+            key: 'OtherResturaunts',
+            label: 'Other Restaurants'
+        }
     ];
+    
 
     const menuItems = [
         ...(resturaunt ? mainMenuItems: []),
@@ -38,10 +43,11 @@ const SideMenu = () => {
         if(menuItem.key === 'signout'){
             await Auth.signOut();
             window.location.reload();
+        } else if (menuItem.key === 'OtherResturaunts') {
+            navigate('/OtherResturaunts');
         } else {
             navigate(menuItem.key);
         }
-        
     };
     return(
        <>
